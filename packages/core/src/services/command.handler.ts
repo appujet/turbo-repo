@@ -1,14 +1,14 @@
-import { singleton, container } from "tsyringe";
 import type { Message } from "discord.js";
-import type { ICommand } from "../interfaces/command.interface.js";
+import { container, singleton } from "tsyringe";
 import { COMMAND_METADATA, type CommandOptions } from "../decorators/command.decorator.js";
 import { logger } from "../index.js";
+import type { ICommand } from "../interfaces/command.interface.js";
 
 @singleton()
 export class CommandHandler {
 	private commands = new Map<string, ICommand>();
 
-	public registerCommand(commandClass: new (...args: any[]) => ICommand): void {
+	public registerCommand(commandClass: new (...args: unknown[]) => ICommand): void {
 		const options: CommandOptions = Reflect.getMetadata(COMMAND_METADATA, commandClass);
 		if (!options) {
 			throw new Error(`Class ${commandClass.name} is not a valid command (missing @Command decorator)`);

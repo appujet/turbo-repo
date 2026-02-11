@@ -1,8 +1,8 @@
-import { singleton, container } from "tsyringe";
 import type { Client } from "discord.js";
-import type { IEvent } from "../interfaces/event.interface.js";
+import { container, singleton } from "tsyringe";
 import { EVENT_METADATA, type EventOptions } from "../decorators/event.decorator.js";
 import { logger } from "../index.js";
+import type { IEvent } from "../interfaces/event.interface.js";
 
 @singleton()
 export class EventHandler {
