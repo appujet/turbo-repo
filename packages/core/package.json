@@ -1,0 +1,19 @@
+{
+    "name": "@repo/core",
+    "version": "0.0.0",
+    "main": "./dist/index.js",
+    "types": "./src/index.ts",
+    "type": "module",
+    "scripts": {
+        "build": "node build.js",
+        "clean": "rimraf dist .turbo"
+    },
+    "dependencies": {
+        "pino": "latest",
+        "pino-pretty": "latest"
+    },
+    "devDependencies": {
+        "@repo/esbuild-config": "workspace:*",
+        "@repo/typescript-config": "workspace:*"
+    }
+}

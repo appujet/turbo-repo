@@ -1,0 +1,23 @@
+{
+    "name": "@repo/db",
+    "version": "0.0.0",
+    "main": "./dist/index.js",
+    "types": "./src/index.ts",
+    "type": "module",
+    "scripts": {
+        "build": "node build.js",
+        "generate": "drizzle-kit generate",
+        "push": "drizzle-kit push",
+        "clean": "rimraf dist .turbo"
+    },
+    "dependencies": {
+        "drizzle-orm": "latest",
+        "postgres": "latest",
+        "@repo/env": "workspace:*"
+    },
+    "devDependencies": {
+        "drizzle-kit": "latest",
+        "@repo/esbuild-config": "workspace:*",
+        "@repo/typescript-config": "workspace:*"
+    }
+}

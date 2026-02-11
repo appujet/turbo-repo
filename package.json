@@ -1,0 +1,28 @@
+{
+  "name": "discord-bot-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "generate": "turbo generate",
+    "push": "turbo push",
+    "clean": "turbo clean && rimraf node_modules .turbo **/node_modules **/dist **/.turbo"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "rimraf": "^6.1.2",
+    "turbo": "^2.8.5",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@types/node": "^25.2.3",
+    "esbuild": "^0.27.3",
+    "tsx": "^4.21.0"
+  }
+}
