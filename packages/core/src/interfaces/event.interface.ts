@@ -7,5 +7,5 @@ export interface EventMetadata<K extends keyof ClientEvents = keyof ClientEvents
 
 export interface IEvent<K extends keyof ClientEvents = keyof ClientEvents> {
 	metadata?: EventMetadata<K>;
-	run(...args: any[]): Promise<void> | void;
+	run(...args: ClientEvents[K]): Promise<void> | void;
 }

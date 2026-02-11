@@ -1,14 +1,14 @@
 import { CommandHandler, Event, type IEvent, logger } from "@repo/core";
 import { GuildService } from "@repo/db";
-import { type Client, Events, type Message } from "discord.js";
+import { Events, type Message } from "discord.js";
 import { container, singleton } from "tsyringe";
 
 @Event({
 	name: Events.MessageCreate,
 })
 @singleton()
-export class MessageCreateEvent implements IEvent {
-	async run(_client: Client, message: Message): Promise<void> {
+export class MessageCreateEvent implements IEvent<"messageCreate"> {
+	async run(message: Message): Promise<void> {
 		if (message.author.bot) return;
 		const guildService = container.resolve(GuildService);
 		const commandHandler = container.resolve(CommandHandler);

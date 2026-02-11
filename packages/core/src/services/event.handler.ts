@@ -23,22 +23,25 @@ export class EventHandler {
 
 	public attachTo(client: Client) {
 		for (const [name, eventList] of this.getAll()) {
-			for (const event of eventList) {
-				// biome-ignore lint/suspicious/noExplicitAny: Event handler args are dynamic based on Discord.js event type
-				const handler = async (...args: any[]) => {
-					try {
-						await event.run(client, ...args);
-					} catch (err) {
-						logger.error(err, `Error in event "${name}":`);
-					}
-				};
-				if (event.metadata?.once) {
-					client.once(name, handler);
-				} else {
-					client.on(name, handler);
-				}
-			}
+			this.attachEventList(client, name, eventList);
 		}
 		logger.info(`Attached ${this.events.size} events to client`);
+	}
+
+	private attachEventList<K extends keyof ClientEvents>(client: Client, name: K, eventList: IEvent<K>[]) {
+		for (const event of eventList) {
+			const handler = async (...args: ClientEvents[K]) => {
+				try {
+					await event.run(...args);
+				} catch (err) {
+					logger.error(err, `Error in event "${name}":`);
+				}
+			};
+			if (event.metadata?.once) {
+				client.once(name, handler);
+			} else {
+				client.on(name, handler);
+			}
+		}
 	}
 }
