@@ -4,8 +4,8 @@ import { logger } from "@repo/core";
 import { container } from "tsyringe";
 import { BotClient } from "./client.js";
 
-import { loadCommands } from "./services/load.commands.js";
-import { loadEvents } from "./services/load.events.js";
+import { loadCommands } from "./loaders/load.commands.js";
+import { loadEvents } from "./loaders/load.events.js";
 
 async function bootstrap() {
 	try {

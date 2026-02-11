@@ -19,7 +19,6 @@ export class BotClient extends Client {
 
 	public async start(): Promise<void> {
 		try {
-			logger.info("Starting bot...");
 			await this.login(env.DISCORD_TOKEN);
 		} catch (error) {
 			logger.error(error, "Failed to start bot:");

@@ -14,8 +14,7 @@
 	"dependencies": {
 		"drizzle-orm": "latest",
 		"postgres": "latest",
-		"@repo/env": "workspace:*",
-		"tsyringe": "^4.10.0"
+		"@repo/env": "workspace:*"
 	},
 	"devDependencies": {
 		"drizzle-kit": "latest",

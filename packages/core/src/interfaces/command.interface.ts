@@ -1,4 +1,4 @@
-import type { ApplicationCommandOptionData, Message } from "discord.js";
+import type { APIApplicationCommandOption, CommandInteraction, Message, PermissionResolvable } from "discord.js";
 
 export interface CommandMetadata {
 	name: string;
@@ -6,10 +6,13 @@ export interface CommandMetadata {
 	aliases?: string[];
 	category?: string;
 	slash?: boolean;
-	options?: ApplicationCommandOptionData[];
+	options?: APIApplicationCommandOption[];
+	defaultMemberPermissions?: PermissionResolvable;
+	clientPermissions?: PermissionResolvable;
 }
 
 export interface ICommand {
 	metadata?: CommandMetadata;
-	execute(message: Message, args: string[]): Promise<void> | void;
+	prefixRun(message: Message, args: string[]): Promise<void> | void;
+	slashRun(interaction: CommandInteraction): Promise<void> | void;
 }
