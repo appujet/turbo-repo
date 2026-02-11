@@ -1,19 +1,20 @@
 {
-    "name": "@repo/env",
-    "version": "0.0.0",
-    "main": "./dist/index.js",
-    "types": "./src/index.ts",
-    "type": "module",
-    "scripts": {
-        "build": "node build.js",
-        "clean": "rimraf dist .turbo"
-    },
-    "dependencies": {
-        "zod": "latest",
-        "dotenv": "latest"
-    },
-    "devDependencies": {
-        "@repo/esbuild-config": "workspace:*",
-        "@repo/typescript-config": "workspace:*"
-    }
+	"name": "@repo/env",
+	"version": "0.0.0",
+	"main": "./dist/index.js",
+	"types": "./src/index.ts",
+	"type": "module",
+	"scripts": {
+		"build": "node build.js",
+		"clean": "rimraf dist .turbo",
+		"lint": "biome check ."
+	},
+	"dependencies": {
+		"zod": "latest",
+		"dotenv": "latest"
+	},
+	"devDependencies": {
+		"@repo/esbuild-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*"
+	}
 }

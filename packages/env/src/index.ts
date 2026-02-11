@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { config } from "dotenv";
 import path from "node:path";
+import { config } from "dotenv";
+import { z } from "zod";
 
 // Load .env from root if it exists
 config({ path: path.resolve(process.cwd(), "../../.env") });

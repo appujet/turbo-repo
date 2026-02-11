@@ -1,19 +1,9 @@
-import pino from "pino";
+import "reflect-metadata";
 
-const isDevelopment = process.env.NODE_ENV !== "production";
-
-export const logger = pino({
-	level: process.env.LOG_LEVEL || "info",
-	transport: isDevelopment
-		? {
-				target: "pino-pretty",
-				options: {
-					colorize: true,
-					translateTime: "HH:MM:ss Z",
-					ignore: "pid,hostname",
-				},
-			}
-		: undefined,
-});
-
-export default logger;
+export * from "./decorators/command.decorator.js";
+export * from "./decorators/event.decorator.js";
+export * from "./interfaces/command.interface.js";
+export * from "./interfaces/event.interface.js";
+export * from "./logger.js";
+export * from "./services/command.handler.js";
+export * from "./services/event.handler.js";

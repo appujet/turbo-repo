@@ -1,34 +1,31 @@
-import { Client, Events, GatewayIntentBits } from "discord.js";
-import { env } from "@repo/env";
-import { db, users, eq } from "@repo/db";
-import { logger } from "@repo/core";
+import "reflect-metadata";
+import { CommandHandler, EventHandler, logger } from "@repo/core";
+import { container } from "tsyringe";
+import { BotClient } from "./client.js";
+import { PingCommand } from "./commands/ping.command.js";
+import { MessageCreateEvent } from "./events/message.create.js";
+import { ReadyEvent } from "./events/ready.event.js";
 
-const client = new Client({
-	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-});
+async function bootstrap() {
+	try {
+		// Resolve services
+		const client = container.resolve(BotClient);
+		const commandHandler = container.resolve(CommandHandler);
+		const eventHandler = container.resolve(EventHandler);
 
-client.once(Events.ClientReady, (readyClient) => {
-	logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
-});
+		// Register events
+		eventHandler.registerEvent(client, ReadyEvent);
+		eventHandler.registerEvent(client, MessageCreateEvent);
 
-client.on(Events.MessageCreate, async (message) => {
-	if (message.author.bot) return;
+		// Register commands
+		commandHandler.registerCommand(PingCommand);
 
-	if (message.content === "!ping") {
-		await message.reply("Pong!");
-		
-		// Example DB usage: Upsert user
-		await db
-			.insert(users)
-			.values({
-				id: message.author.id,
-				username: message.author.username,
-			})
-			.onConflictDoUpdate({
-				target: users.id,
-				set: { username: message.author.username },
-			});
+		// Start the bot
+		await client.start();
+	} catch (error) {
+		logger.error(error, "Error during bot bootstrap:");
+		process.exit(1);
 	}
-});
+}
 
-client.login(env.DISCORD_TOKEN);
+bootstrap();
