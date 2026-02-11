@@ -6,6 +6,7 @@ import type { IEvent } from "../interfaces/event.interface.js";
 
 @singleton()
 export class EventHandler {
+	// biome-ignore lint/suspicious/noExplicitAny: Standard DI constructor type
 	public registerEvent(client: Client, eventClass: new (...args: any[]) => IEvent): void {
 		const options: EventOptions = Reflect.getMetadata(EVENT_METADATA, eventClass);
 		if (!options) {

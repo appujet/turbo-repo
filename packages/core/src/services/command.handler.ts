@@ -8,7 +8,8 @@ import type { ICommand } from "../interfaces/command.interface.js";
 export class CommandHandler {
 	private commands = new Map<string, ICommand>();
 
-	public registerCommand(commandClass: new (...args: unknown[]) => ICommand): void {
+	// biome-ignore lint/suspicious/noExplicitAny: Standard DI constructor type
+	public registerCommand(commandClass: new (...args: any[]) => ICommand): void {
 		const options: CommandOptions = Reflect.getMetadata(COMMAND_METADATA, commandClass);
 		if (!options) {
 			throw new Error(`Class ${commandClass.name} is not a valid command (missing @Command decorator)`);
