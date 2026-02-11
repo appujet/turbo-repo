@@ -5,7 +5,11 @@ import esbuildPluginTsc from "esbuild-plugin-tsc";
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
 
-const external = [...Object.keys(packageJson.dependencies || {}), ...Object.keys(packageJson.peerDependencies || {})];
+const external = [
+	...Object.keys(packageJson.dependencies || {}),
+	...Object.keys(packageJson.peerDependencies || {}),
+	...Object.keys(packageJson.devDependencies || {}),
+];
 
 build({
 	...baseConfig,
