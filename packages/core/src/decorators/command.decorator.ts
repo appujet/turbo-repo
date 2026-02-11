@@ -1,15 +1,11 @@
-import { injectable } from "tsyringe";
+import type { CommandMetadata } from "../interfaces/command.interface.js";
 
-export const COMMAND_METADATA = "command_metadata";
-
-export interface CommandOptions {
-	name: string;
-	description?: string;
-}
-
-export function Command(options: CommandOptions): ClassDecorator {
-	return (target: any) => {
-		injectable()(target);
-		Reflect.defineMetadata(COMMAND_METADATA, options, target);
-	};
+export function Command(options: CommandMetadata) {
+	// biome-ignore lint/suspicious/noExplicitAny: Decorator pattern requires any for constructor args
+	return <T extends new (...args: any[]) => object>(target: T) =>
+		class extends target {
+			metadata = {
+				...options,
+			} satisfies CommandMetadata;
+		};
 }

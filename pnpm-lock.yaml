@@ -63,6 +63,12 @@ importers:
       discord.js:
         specifier: latest
         version: 14.25.1
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      tsyringe:
+        specifier: ^4.10.0
+        version: 4.10.0
     devDependencies:
       '@repo/esbuild-config':
         specifier: workspace:*
@@ -154,11 +160,7 @@ importers:
         specifier: latest
         version: 0.27.3
 
-  packages/typescript-config:
-    devDependencies:
-      esbuild:
-        specifier: latest
-        version: 0.27.3
+  packages/typescript-config: {}
 
 packages:
 

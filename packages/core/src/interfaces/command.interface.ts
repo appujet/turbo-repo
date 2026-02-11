@@ -1,7 +1,15 @@
-import type { Message } from "discord.js";
+import type { ApplicationCommandOptionData, Message } from "discord.js";
+
+export interface CommandMetadata {
+	name: string;
+	description?: string;
+	aliases?: string[];
+	category?: string;
+	slash?: boolean;
+	options?: ApplicationCommandOptionData[];
+}
 
 export interface ICommand {
-	name?: string;
-	description?: string;
+	metadata?: CommandMetadata;
 	execute(message: Message, args: string[]): Promise<void> | void;
 }

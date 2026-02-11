@@ -1,26 +1,44 @@
-import type { Client } from "discord.js";
-import { container, singleton } from "tsyringe";
-import { EVENT_METADATA, type EventOptions } from "../decorators/event.decorator.js";
-import { logger } from "../index.js";
+import type { Client, ClientEvents } from "discord.js";
+import { singleton } from "tsyringe";
 import type { IEvent } from "../interfaces/event.interface.js";
+import { logger } from "../logger.js";
 
 @singleton()
 export class EventHandler {
-	// biome-ignore lint/suspicious/noExplicitAny: Standard DI constructor type
-	public registerEvent(client: Client, eventClass: new (...args: any[]) => IEvent): void {
-		const options: EventOptions = Reflect.getMetadata(EVENT_METADATA, eventClass);
-		if (!options) {
-			throw new Error(`Class ${eventClass.name} is not a valid event (missing @Event decorator)`);
+	public events = new Map<keyof ClientEvents, IEvent[]>();
+
+	registerEvent<K extends keyof ClientEvents>(event: IEvent<K>): this {
+		if (!event.metadata || !event.metadata.name) {
+			logger.warn(`Event ${event.constructor.name} missing metadata, skipping registration.`);
+			return this;
 		}
+		if (!this.events.has(event.metadata.name)) this.events.set(event.metadata.name, []);
+		this.events.get(event.metadata.name)?.push(event);
+		return this;
+	}
 
-		const instance = container.resolve<IEvent>(eventClass);
+	public getAll() {
+		return this.events.entries();
+	}
 
-		if (options.once) {
-			client.once(options.name, (...args) => instance.execute(...args));
-		} else {
-			client.on(options.name, (...args) => instance.execute(...args));
+	public attachTo(client: Client) {
+		for (const [name, eventList] of this.getAll()) {
+			for (const event of eventList) {
+				// biome-ignore lint/suspicious/noExplicitAny: Event handler args are dynamic based on Discord.js event type
+				const handler = async (...args: any[]) => {
+					try {
+						await event.run(client, ...args);
+					} catch (err) {
+						logger.error(err, `Error in event "${name}":`);
+					}
+				};
+				if (event.metadata?.once) {
+					client.once(name, handler);
+				} else {
+					client.on(name, handler);
+				}
+			}
 		}
-
-		logger.info(`Registered event: ${options.name} (${options.once ? "once" : "on"})`);
+		logger.info(`Attached ${this.events.size} events to client`);
 	}
 }

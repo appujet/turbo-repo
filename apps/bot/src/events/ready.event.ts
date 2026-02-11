@@ -6,7 +6,7 @@ import { type Client, Events } from "discord.js";
 	once: true,
 })
 export class ReadyEvent implements IEvent {
-	execute(client: Client<true>): void {
+	run(client: Client<true>): void {
 		logger.info(`Ready! Logged in as ${client.user.tag}`);
 	}
 }

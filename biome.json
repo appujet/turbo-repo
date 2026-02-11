@@ -17,5 +17,10 @@
 		"lineWidth": 120,
 		"indentStyle": "tab",
 		"indentWidth": 2
+	},
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
 	}
 }

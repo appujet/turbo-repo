@@ -5,11 +5,5 @@
 	"license": "MIT",
 	"publishConfig": {
 		"access": "public"
-	},
-	"scripts": {
-		"build": "esbuild --version"
-	},
-	"devDependencies": {
-		"esbuild": "latest"
 	}
 }

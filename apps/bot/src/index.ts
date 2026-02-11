@@ -1,24 +1,20 @@
 import "reflect-metadata";
-import { CommandHandler, EventHandler, logger } from "@repo/core";
+
+import { logger } from "@repo/core";
 import { container } from "tsyringe";
 import { BotClient } from "./client.js";
-import { PingCommand } from "./commands/ping.command.js";
-import { MessageCreateEvent } from "./events/message.create.js";
-import { ReadyEvent } from "./events/ready.event.js";
+
+import { loadCommands } from "./services/load.commands.js";
+import { loadEvents } from "./services/load.events.js";
 
 async function bootstrap() {
 	try {
 		// Resolve services
 		const client = container.resolve(BotClient);
-		const commandHandler = container.resolve(CommandHandler);
-		const eventHandler = container.resolve(EventHandler);
 
-		// Register events
-		eventHandler.registerEvent(client, ReadyEvent);
-		eventHandler.registerEvent(client, MessageCreateEvent);
-
-		// Register commands
-		commandHandler.registerCommand(PingCommand);
+		await loadCommands();
+		const events = await loadEvents();
+		events.attachTo(client);
 
 		// Start the bot
 		await client.start();

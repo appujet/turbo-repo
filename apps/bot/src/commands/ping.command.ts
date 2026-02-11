@@ -1,5 +1,5 @@
 import { Command, type ICommand } from "@repo/core";
-import { GuildService, UserService } from "@repo/db";
+import type { GuildService, UserService } from "@repo/db";
 import type { Message } from "discord.js";
 import { singleton } from "tsyringe";
 

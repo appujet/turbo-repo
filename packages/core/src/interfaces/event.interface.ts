@@ -1,5 +1,11 @@
-export interface IEvent {
-	name?: string;
+import type { ClientEvents } from "discord.js";
+
+export interface EventMetadata<K extends keyof ClientEvents = keyof ClientEvents> {
+	name: K;
 	once?: boolean;
-	execute(...args: any[]): Promise<void> | void;
+}
+
+export interface IEvent<K extends keyof ClientEvents = keyof ClientEvents> {
+	metadata?: EventMetadata<K>;
+	run(...args: any[]): Promise<void> | void;
 }

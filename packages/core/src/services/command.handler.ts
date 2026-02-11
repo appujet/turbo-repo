@@ -1,26 +1,36 @@
 import { GuildService } from "@repo/db";
 import type { Message } from "discord.js";
-import { container, singleton } from "tsyringe";
-import { COMMAND_METADATA, type CommandOptions } from "../decorators/command.decorator.js";
-import { logger } from "../index.js";
+import { inject, singleton } from "tsyringe";
 import type { ICommand } from "../interfaces/command.interface.js";
+import { logger } from "../logger.js";
 
 @singleton()
 export class CommandHandler {
-	private commands = new Map<string, ICommand>();
+	public commands = new Map<string, ICommand>();
+	public aliases = new Map<string, string>();
+	constructor(@inject(GuildService) private guildService: GuildService) {}
 
-	constructor(private guildService: GuildService) {}
-
-	// biome-ignore lint/suspicious/noExplicitAny: Standard DI constructor type
-	public registerCommand(commandClass: new (...args: any[]) => ICommand): void {
-		const options: CommandOptions = Reflect.getMetadata(COMMAND_METADATA, commandClass);
-		if (!options) {
-			throw new Error(`Class ${commandClass.name} is not a valid command (missing @Command decorator)`);
+	public register(command: ICommand): this {
+		if (!command.metadata) {
+			logger.warn(`Command ${command.constructor.name} missing metadata, skipping registration.`);
+			return this;
 		}
+		if (!command.metadata.name) {
+			logger.warn(`Command ${command.constructor.name} missing metadata, skipping registration.`);
+			return this;
+		}
+		this.commands.set(command.metadata.name, command);
 
-		const instance = container.resolve<ICommand>(commandClass);
-		this.commands.set(options.name, instance);
-		logger.info(`Registered command: ${options.name}`);
+		if (command.metadata.aliases) {
+			for (const alias of command.metadata.aliases) {
+				this.aliases.set(alias, command.metadata.name);
+			}
+		}
+		return this;
+	}
+	getCommand(nameOrAlias: string): ICommand | undefined {
+		const commandName = this.aliases.get(nameOrAlias) ?? nameOrAlias;
+		return this.commands.get(commandName);
 	}
 
 	public async handle(message: Message): Promise<void> {
@@ -34,7 +44,7 @@ export class CommandHandler {
 
 		if (!commandName) return;
 
-		const command = this.commands.get(commandName);
+		const command = this.getCommand(commandName);
 		if (!command) return;
 
 		try {

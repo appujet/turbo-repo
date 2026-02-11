@@ -14,7 +14,9 @@
 		"discord.js": "latest",
 		"@repo/db": "workspace:*",
 		"@repo/env": "workspace:*",
-		"@repo/core": "workspace:*"
+		"@repo/core": "workspace:*",
+		"reflect-metadata": "^0.2.2",
+		"tsyringe": "^4.10.0"
 	},
 	"devDependencies": {
 		"@repo/esbuild-config": "workspace:*",
