@@ -10,12 +10,6 @@
 			"cache": false,
 			"persistent": true
 		},
-		"generate": {
-			"cache": false
-		},
-		"push": {
-			"cache": false
-		},
 		"clean": {
 			"cache": false
 		},

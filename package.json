@@ -6,8 +6,6 @@
 		"dev": "turbo dev",
 		"lint": "biome check .",
 		"format": "biome format --write .",
-		"generate": "turbo generate",
-		"push": "turbo push",
 		"clean": "rimraf node_modules .turbo \"**/node_modules\" \"**/dist\" \"**/.turbo\"",
 		"prepare": "husky"
 	},
