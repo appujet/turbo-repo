@@ -78,6 +78,12 @@ importers:
 
   packages/core:
     dependencies:
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../db
+      '@repo/env':
+        specifier: workspace:*
+        version: link:../env
       pino:
         specifier: latest
         version: 10.3.1
@@ -112,6 +118,9 @@ importers:
       postgres:
         specifier: latest
         version: 3.4.8
+      tsyringe:
+        specifier: ^4.10.0
+        version: 4.10.0
     devDependencies:
       '@repo/esbuild-config':
         specifier: workspace:*

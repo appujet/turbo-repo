@@ -1,5 +1,5 @@
 export interface IEvent {
-	name: string;
+	name?: string;
 	once?: boolean;
 	execute(...args: any[]): Promise<void> | void;
 }

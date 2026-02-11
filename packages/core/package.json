@@ -13,7 +13,9 @@
 		"pino": "latest",
 		"pino-pretty": "latest",
 		"tsyringe": "latest",
-		"reflect-metadata": "latest"
+		"reflect-metadata": "latest",
+		"@repo/db": "workspace:*",
+		"@repo/env": "workspace:*"
 	},
 	"devDependencies": {
 		"discord.js": "latest",

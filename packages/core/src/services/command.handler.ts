@@ -1,3 +1,4 @@
+import { GuildService } from "@repo/db";
 import type { Message } from "discord.js";
 import { container, singleton } from "tsyringe";
 import { COMMAND_METADATA, type CommandOptions } from "../decorators/command.decorator.js";
@@ -7,6 +8,8 @@ import type { ICommand } from "../interfaces/command.interface.js";
 @singleton()
 export class CommandHandler {
 	private commands = new Map<string, ICommand>();
+
+	constructor(private guildService: GuildService) {}
 
 	// biome-ignore lint/suspicious/noExplicitAny: Standard DI constructor type
 	public registerCommand(commandClass: new (...args: any[]) => ICommand): void {
@@ -23,7 +26,7 @@ export class CommandHandler {
 	public async handle(message: Message): Promise<void> {
 		if (message.author.bot) return;
 
-		const prefix = "!"; // Could be from config/env
+		const prefix = await this.guildService.getPrefix(message.guildId ?? undefined);
 		if (!message.content.startsWith(prefix)) return;
 
 		const args = message.content.slice(prefix.length).trim().split(/ +/);

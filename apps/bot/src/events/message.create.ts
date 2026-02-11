@@ -1,4 +1,4 @@
-import { type CommandHandler, Event, type IEvent } from "@repo/core";
+import { CommandHandler, Event, type IEvent } from "@repo/core";
 import { Events, type Message } from "discord.js";
 import { singleton } from "tsyringe";
 
@@ -7,8 +7,6 @@ import { singleton } from "tsyringe";
 })
 @singleton()
 export class MessageCreateEvent implements IEvent {
-	name = Events.MessageCreate;
-
 	constructor(private commandHandler: CommandHandler) {}
 
 	async execute(message: Message): Promise<void> {

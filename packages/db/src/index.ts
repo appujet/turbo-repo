@@ -1,10 +1,5 @@
-import { env } from "@repo/env";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import * as schema from "./schema.js";
-
 export * from "drizzle-orm";
-export * from "./schema.js";
-
-const client = postgres(env.DATABASE_URL);
-export const db = drizzle(client, { schema });
+export * from "./client.js";
+export * from "./schema/index.js";
+export * from "./services/guild.service.js";
+export * from "./services/user.service.js";

@@ -9,6 +9,7 @@ config({ path: path.resolve(process.cwd(), ".env") });
 const envSchema = z.object({
 	DISCORD_TOKEN: z.string().min(1),
 	DATABASE_URL: z.string().url(),
+	DEFAULT_PREFIX: z.string().min(1).default("!"),
 	NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 });
 

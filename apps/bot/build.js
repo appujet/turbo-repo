@@ -12,6 +12,7 @@ build({
 	plugins: [
 		esbuildPluginTsc({
 			force: true,
+			tsconfigPath: "./tsconfig.json",
 		}),
 	],
 	entryPoints: ["src/index.ts"],
