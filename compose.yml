@@ -1,0 +1,77 @@
+services:
+  # redis server
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+        - "6379:6379"
+    volumes:
+        - redis_data:/data
+    networks:
+        - app-network
+    healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # postgres server
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+        - "5432:5432"
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+    networks:
+        - app-network
+    healthcheck:
+        test: ["CMD", "pg_isready", "-U", "postgres"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # bot server
+  bot:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    container_name: bot
+    restart: unless-stopped
+    networks:
+        - app-network
+    env_file:
+      - .env.production
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      - postgres
+      - redis
+
+  # migrator server
+  migrator:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    container_name: migrator
+    networks:
+      - app-network
+    environment:
+      - HOME=/tmp
+      - COREPACK_HOME=/tmp/.cache/corepack
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      - postgres
+    command: ["pnpm", "--filter", "@bot/db", "push"]
+
+volumes:
+    redis_data:
+    postgres_data:
+    bot_data:
+
+networks:
+  app-network:
+    driver: bridge
