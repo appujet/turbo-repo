@@ -46,7 +46,6 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 
 # Copy pruned source
 COPY --from=pruner /app/out/full/ .
-COPY scripts ./scripts
 
 # Build shared packages and the bot
 RUN --mount=type=cache,target=/app/.turbo \
