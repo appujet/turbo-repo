@@ -1,6 +1,6 @@
 {
 	"name": "@repo/db",
-	"version": "0.0.2",
+	"version": "0.0.3-beta.1",
 	"main": "./dist/index.js",
 	"types": "./src/index.ts",
 	"type": "module",

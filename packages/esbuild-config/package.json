@@ -1,6 +1,6 @@
 {
 	"name": "@repo/esbuild-config",
-	"version": "0.0.2",
+	"version": "0.0.3-beta.1",
 	"private": true,
 	"type": "module",
 	"main": "index.js",
