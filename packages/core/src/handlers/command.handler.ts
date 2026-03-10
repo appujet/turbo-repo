@@ -41,20 +41,19 @@ export class CommandHandler {
 	async ApplicationCommandsJSON() {
 		const cmds: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 		for (const command of this.commands.values()) {
-			if (command.metadata?.slash) {
-				const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
-					name: command.metadata.name,
-					description: command.metadata.description || "",
-					type: ApplicationCommandType.ChatInput,
-					options: command.metadata.options,
-					default_member_permissions:
-						Array.isArray(command.metadata.defaultMemberPermissions) &&
-						command.metadata.defaultMemberPermissions.length > 0
-							? PermissionsBitField.resolve(command.metadata.defaultMemberPermissions).toString()
-							: null,
-				};
-				cmds.push(data);
-			}
+			const { metadata } = command;
+			if (!metadata || metadata.slash === false) continue;
+
+			cmds.push({
+				name: metadata.name,
+				description: metadata.description || "",
+				type: ApplicationCommandType.ChatInput,
+				options: metadata.options,
+				default_member_permissions:
+					Array.isArray(metadata.defaultMemberPermissions) && metadata.defaultMemberPermissions.length > 0
+						? PermissionsBitField.resolve(metadata.defaultMemberPermissions).toString()
+						: null,
+			});
 		}
 		return cmds;
 	}

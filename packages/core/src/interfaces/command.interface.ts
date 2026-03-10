@@ -13,6 +13,6 @@ export interface CommandMetadata {
 
 export interface ICommand {
 	metadata?: CommandMetadata;
-	prefixRun(message: Message, args: string[]): Promise<void> | void;
+	prefixRun?(message: Message, args: string[]): Promise<void> | void;
 	slashRun(interaction: CommandInteraction): Promise<void> | void;
 }
