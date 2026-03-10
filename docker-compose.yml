@@ -65,7 +65,7 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
     depends_on:
       - postgres
-    command: ["pnpm", "--filter", "@bot/db", "push"]
+    command: ["pnpm", "--filter", "@repo/db", "push"]
 
 volumes:
     redis_data:
