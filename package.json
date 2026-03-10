@@ -19,7 +19,7 @@
 		"husky": "latest",
 		"rimraf": "latest",
 		"tsx": "latest",
-		"turbo": "^2.8.5",
+		"turbo": "^2.8.15",
 		"typescript": "^5.9.3"
 	},
 	"packageManager": "pnpm@9.0.0",
