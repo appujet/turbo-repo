@@ -10,8 +10,8 @@
 		"lint": "biome check ."
 	},
 	"dependencies": {
-		"zod": "latest",
-		"dotenv": "latest"
+		"dotenv": "latest",
+		"zod": "latest"
 	},
 	"devDependencies": {
 		"@repo/esbuild-config": "workspace:*",

@@ -12,13 +12,13 @@
 		"lint": "biome check ."
 	},
 	"dependencies": {
+		"@repo/env": "workspace:*",
 		"drizzle-orm": "latest",
-		"postgres": "latest",
-		"@repo/env": "workspace:*"
+		"postgres": "latest"
 	},
 	"devDependencies": {
-		"drizzle-kit": "latest",
 		"@repo/esbuild-config": "workspace:*",
-		"@repo/typescript-config": "workspace:*"
+		"@repo/typescript-config": "workspace:*",
+		"drizzle-kit": "latest"
 	}
 }
