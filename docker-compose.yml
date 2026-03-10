@@ -58,7 +58,7 @@ services:
       dockerfile: apps/bot/Dockerfile
     container_name: migrator
     networks:
-      - app-network
+        - app-network
     environment:
       - HOME=/tmp
       - COREPACK_HOME=/tmp/.cache/corepack
