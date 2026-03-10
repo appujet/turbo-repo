@@ -7,7 +7,8 @@
 		"lint": "biome check --write .",
 		"format": "biome format --write .",
 		"clean": "rimraf node_modules .turbo \"**/node_modules\" \"**/dist\" \"**/.turbo\"",
-		"prepare": "husky"
+		"prepare": "husky",
+    	"bump": "pnpm dlx bumpp -r"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.14",
